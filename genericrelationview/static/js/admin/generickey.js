@@ -3,7 +3,7 @@
   window.generic_view_json = function(self,url,selector, content_type){
     var init = $(self).data("init");
     var contentID = self.id;
-    var paramContenID = contentID.replace("id_","").replace("content_type","")
+    var paramContenID = contentID.replace("id_","").replace(content_type,"")
     var objectID = "id_" + paramContenID + selector;
     var id = self.value;
 
@@ -28,12 +28,14 @@
       $drop.replaceWith($select);
     }
 
-    $select.html('<option value="">---------</option>');
     if( id != "" ){
       var path = url + "?id=" + id;
       $.getJSON(path,function(data){
-        for( var i=0; i<data.length;++i){
+        $select.html('<option value="">---------</option>');
+        console.log(data.length, data)
+        for(var i=0; i < data.length; i++){
           var item = data[i];
+          console.log(i);
           var val = item['pk'];
           var title = item['fields']['title'];
           var option = $("<option/>").val(val).text(title);
