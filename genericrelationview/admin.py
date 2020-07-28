@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
+import django
+
+if django.VERSION[0] == 2:
+    from django.urls import reverse
+else:
+    from django.core.urlresolvers import reverse
+
 
 __author__ = 'lexich'
 
@@ -12,7 +18,6 @@ class GenericAdminMixin(object):
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         save_kwargs = dict(kwargs)
-        request = kwargs.pop("request", None)
         for (content_type, object_id) in self.generic_pairs:
             if db_field.name == content_type:
                 return self.formfield_for_content_type(
